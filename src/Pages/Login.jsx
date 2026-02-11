@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "./Login.css";
 import { BrowserRouter } from "react-router-dom";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
