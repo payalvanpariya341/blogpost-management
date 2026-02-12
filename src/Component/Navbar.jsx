@@ -1,14 +1,11 @@
 import { FaBlog, FaHome, FaPlusSquare, FaSignOutAlt } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("loginData"); // remove login data
-    navigate("/login"); // redirect to login
-  };
+const Navbar = ({ onLogout }) => {
+  // Get user email from localStorage to display
+  const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
+  const userName = loginData?.email?.split("@")[0] || "User";
 
   return (
     <nav className="navbar">
@@ -29,9 +26,9 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-actions">
-          <span className="user-name">Hi, User</span>
+          <span className="user-name">Hi, Payal</span>
 
-          <button className="logout-btn" onClick={handleLogout}>
+          <button className="logout-btn" onClick={onLogout}>
             <FaSignOutAlt /> Logout
           </button>
         </div>
