@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "./Login.css";
-import { BrowserRouter } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -12,9 +12,8 @@ const Login = () => {
 
   const [errors, setErrors] = useState({});
 
-  // logic section
+  /* ================= INPUT CHANGE ================= */
   const handleInputChange = (e) => {
-    //method declare
     setLoginData({
       ...loginData,
       [e.target.name]: e.target.value,
@@ -26,72 +25,71 @@ const Login = () => {
     });
   };
 
-  // validation
+  /* ================= VALIDATION ================= */
   const validate = () => {
     const newErrors = {};
 
     if (!loginData.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^s@]+\.[^\s@]+$/.test(loginData.email)) {
-      newErrors.email = "Invalid Email format.";
     }
 
     if (!loginData.password.trim()) {
       newErrors.password = "Password is required";
-    } else if (loginData.password.length < 6) {
-      newErrors.password = "Minimum 6 character required.";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // submit
+  /* ================= SUBMIT ================= */
   const handleClick = (e) => {
     e.preventDefault();
-    if (validate()) {
-      const user = JSON.parse(localStorage.getItem("authData"));
-      if (
-        user &&
-        loginData.email === user.email &&
-        loginData.password === user.password
-      ) {
-        localStorage.setItem("loginData", JSON.stringify(loginData));
-        navigate("/dashboard");
-      } else {
-        alert("Invalid Email or Password");
-      }
+
+    if (!validate()) return;
+
+    const user = JSON.parse(localStorage.getItem("authData"));
+
+    if (
+      user &&
+      loginData.email === user.email &&
+      loginData.password === user.password
+    ) {
+      // 🔥 STORE CLEAN LOGIN DATA
+      localStorage.setItem(
+        "loginData",
+        JSON.stringify({
+          email: loginData.email,
+          username: loginData.email.split("@")[0],
+        })
+      );
+
+      navigate("/dashboard");
     } else {
-      alert("Something went wrong");
+      alert("Invalid Email or Password");
     }
   };
 
   return (
     <div className="form-container">
-      {/* Page Title */}
       <h1 className="form-title">Welcome Back</h1>
 
-      {/* Login Form */}
       <form onSubmit={handleClick}>
-        {/* Email Field */}
         <div className="form-group">
-          <label htmlFor="email">Email Address</label>
+          <label>Email Address</label>
           <input
             type="email"
-            id="email"
             name="email"
             value={loginData.email}
             placeholder="Enter Your Email"
             onChange={handleInputChange}
           />
+          {errors.email && <span className="error-msg">{errors.email}</span>}
         </div>
 
-        {/* Password Field */}
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label>Password</label>
           <input
             type="password"
-            id="password"
             name="password"
             value={loginData.password}
             placeholder="Enter Your Password"
@@ -102,15 +100,13 @@ const Login = () => {
           )}
         </div>
 
-        {/* Submit Button */}
         <button type="submit" className="btn-primary">
           Login
         </button>
       </form>
 
-      {/* Link to Register Page */}
       <p className="link-text">
-        Dont't have an account? <Link to="/register">Register here</Link>
+        Don't have an account? <Link to="/register">Register here</Link>
       </p>
     </div>
   );
