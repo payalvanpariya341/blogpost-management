@@ -10,13 +10,17 @@ import AuthGuard from "./auth/AuthGuard";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import CreatePost from "./Pages/CreatePost"; // ✅ IMPORT ADD
 
+// ✅ Correct Default Route
 const DefaultRoute = () => {
   const loginData = JSON.parse(localStorage.getItem("loginData"));
+
   if (loginData) {
-    return <Navigate to="/Login" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
-  return <Navigate to="/Register" replace />;
+
+  return <Navigate to="/login" replace />;
 };
 
 function App() {
@@ -26,7 +30,7 @@ function App() {
       element: <DefaultRoute />,
     },
     {
-      path: "/Login",
+      path: "/login",
       element: (
         <AuthGuard required={false}>
           <Login />
@@ -34,7 +38,7 @@ function App() {
       ),
     },
     {
-      path: "/Register",
+      path: "/register",
       element: (
         <AuthGuard required={false}>
           <Register />
@@ -42,10 +46,18 @@ function App() {
       ),
     },
     {
-      path: "/Dashboard",
+      path: "/dashboard",
       element: (
         <AuthGuard required={true}>
           <Dashboard />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/create-post",   // ✅ ROUTE ADD
+      element: (
+        <AuthGuard required={true}>
+          <CreatePost />
         </AuthGuard>
       ),
     },
@@ -55,17 +67,9 @@ function App() {
     <>
       <RouterProvider router={router} />
 
-      {/* ✅ Toast container added ONCE */}
       <ToastContainer
         position="top-right"
         autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
         theme="light"
       />
     </>

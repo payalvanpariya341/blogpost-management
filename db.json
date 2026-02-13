@@ -1,36 +1,20 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "First Post",
-      "description": "Sample description",
-      "image": "https://picsum.photos/400",
-      "author": "Admin",
-      "date": "Recent"
-    },
-     {
-      "id": 1,
-      "title": "Second Post",
-      "description": "Sample description",
-      "image": "https://picsum.photos/400",
-      "author": "user",
-      "date": "Recent"
+      "id": "1519",
+      "title": "abc",
+      "author": "payalvanpariya341",
+      "description": "any ",
+      "image": "https://avatars.mds.yandex.net/i?id=52983d245d64534960dcfb85d12c22e937f3b3fb-5233407-images-thumbs&n=13",
+      "createdAt": "2026-02-13T09:55:05.436Z"
     },
     {
-      "id": 1,
-      "title": "Third Post",
-      "description": "Sample description",
-      "image": "https://picsum.photos/400",
-      "author": "user",
-      "date": "Recent"
-    },
-    {
-      "id": 1,
-      "title": "fourth Post",
-      "description": "Sample description",
-      "image": "https://picsum.photos/400",
-      "author": "user",
-      "date": "Recent"
+      "id": "4c43",
+      "title": "hh",
+      "author": "payalvanpariya341",
+      "description": "fgf",
+      "image": "blob:http://localhost:5173/3b1c4db8-4ae6-4844-8242-eccde8de3990",
+      "createdAt": "2026-02-13T09:55:52.393Z"
     }
   ]
-} 
+}
