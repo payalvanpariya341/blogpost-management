@@ -10,17 +10,15 @@ import AuthGuard from "./auth/AuthGuard";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import CreatePost from "./Pages/CreatePost"; // ✅ IMPORT ADD
+import CreatePost from "./Pages/CreatePost";
 
-// ✅ Correct Default Route
+
 const DefaultRoute = () => {
   const loginData = JSON.parse(localStorage.getItem("loginData"));
-
   if (loginData) {
     return <Navigate to="/dashboard" replace />;
   }
-
-  return <Navigate to="/login" replace />;
+  return <Navigate to="/register" replace />;
 };
 
 function App() {
@@ -54,22 +52,38 @@ function App() {
       ),
     },
     {
-      path: "/create-post",   // ✅ ROUTE ADD
+      path: "/create-post",
       element: (
         <AuthGuard required={true}>
           <CreatePost />
         </AuthGuard>
       ),
     },
+    {
+      path: "/edit-post/:id",
+      element: (
+        <AuthGuard required={true}>
+          <CreatePost />
+        </AuthGuard>
+      ),
+    }
   ]);
 
   return (
     <>
       <RouterProvider router={router} />
 
+      {/* Toast container added ONCE */}
       <ToastContainer
         position="top-right"
         autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
         theme="light"
       />
     </>
