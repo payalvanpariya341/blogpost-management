@@ -178,7 +178,7 @@ const Dashboard = () => {
                         post.excerpt}
                     </p>
 
-                    <button className="read-more-btn">
+                    <button onClick={() => navigate(`/post/${post.id}`)}>
                       Read More
                     </button>
                   </div>

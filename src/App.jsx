@@ -11,6 +11,8 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import CreatePost from "./Pages/CreatePost";
+import PostDetails from "./Pages/PostDetails";
+import Analytics from "./Pages/analytics";
 
 
 const DefaultRoute = () => {
@@ -28,21 +30,15 @@ function App() {
       element: <DefaultRoute />,
     },
     {
-      path: "/login",
-      element: (
-        <AuthGuard required={false}>
-          <Login />
-        </AuthGuard>
-      ),
-    },
+    path: "/login",
+    element: <Login />,
+  },
+  
     {
-      path: "/register",
-      element: (
-        <AuthGuard required={false}>
-          <Register />
-        </AuthGuard>
-      ),
-    },
+    path: "/register",
+    element: <Register />,
+  },
+
     {
       path: "/dashboard",
       element: (
@@ -51,6 +47,7 @@ function App() {
         </AuthGuard>
       ),
     },
+    
     {
       path: "/create-post",
       element: (
@@ -60,14 +57,30 @@ function App() {
       ),
     },
     {
-      path: "/edit-post/:id",
-      element: (
-        <AuthGuard required={true}>
-          <CreatePost />
+      path:"/post/:id",
+      element:(
+        <AuthGuard required ={true}>
+          <PostDetails/>
         </AuthGuard>
       ),
-    }
-  ]);
+    },
+    {
+  path: "/post/",
+  element: (
+    <AuthGuard required={true}>
+      <PostDetails />
+    </AuthGuard>
+  ),
+},
+{
+  path: "/analytics",
+  element: (
+    <AuthGuard required={true}>
+      <Analytics  />
+    </AuthGuard>
+  ),
+},
+]);
 
   return (
     <>
