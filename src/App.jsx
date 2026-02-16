@@ -6,13 +6,15 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import AuthGuard from "./auth/AuthGuard";
+import AuthGuard from "./Auth/AuthGuard";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import CreatePost from "./Pages/CreatePost";
 import PostDetails from "./Pages/PostDetails";
 import Analytics from "./Pages/analytics";
+
+
 
 
 const DefaultRoute = () => {
@@ -30,15 +32,21 @@ function App() {
       element: <DefaultRoute />,
     },
     {
-    path: "/login",
-    element: <Login />,
-  },
-  
+      path: "/login",
+      element: (
+        <AuthGuard required={false}>
+          <Login />
+        </AuthGuard>
+      ),
+    },
     {
-    path: "/register",
-    element: <Register />,
-  },
-
+      path: "/register",
+      element: (
+        <AuthGuard required={false}>
+          <Register />
+        </AuthGuard>
+      ),
+    },
     {
       path: "/dashboard",
       element: (
@@ -47,7 +55,6 @@ function App() {
         </AuthGuard>
       ),
     },
-    
     {
       path: "/create-post",
       element: (
@@ -57,30 +64,30 @@ function App() {
       ),
     },
     {
-      path:"/post/:id",
-      element:(
-        <AuthGuard required ={true}>
-          <PostDetails/>
+      path: "/create-post/:id",
+      element: (
+        <AuthGuard required={true}>
+          <CreatePost />
         </AuthGuard>
       ),
     },
     {
-  path: "/post/",
+  path: "/post/:id",
   element: (
     <AuthGuard required={true}>
       <PostDetails />
     </AuthGuard>
   ),
 },
-{
-  path: "/analytics",
-  element: (
-    <AuthGuard required={true}>
-      <Analytics  />
-    </AuthGuard>
-  ),
-},
-]);
+    {
+      path: "/analytics",
+      element: (
+        <AuthGuard required={true}>
+          <Analytics/>
+        </AuthGuard>
+      ),
+    }
+  ]);
 
   return (
     <>

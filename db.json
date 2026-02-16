@@ -12,36 +12,25 @@
       "date": "Feb 14, 2026"
     },
     {
-      "title": "abc",
+      "id": "1771246643919",
+      "title": "coffee",
       "author": "payalvanpariya341",
-      "description": "dfh",
-      "image": "https://avatars.mds.yandex.net/i?id=9482f7277da8e1fec9569a4745927c94b52c0d4f-4080301-images-thumbs&n=13",
-      "userId": 1771090029813,
+      "description": "Hot coffee is a warm and aromatic drink made from freshly brewed coffee beans. Its rich flavor and soothing warmth provide an instant boost of energy and comfort, making it perfect for mornings or relaxing breaks.\n",
+      "image": "https://i.pinimg.com/originals/45/84/7b/45847b5a2011252d3d54adae456e2b49.jpg",
+      "userId": 1771246643918,
       "userEmail": "payalvanpariya341@gmail.com",
-      "createdAt": "2026-02-14T17:27:09.813Z",
-      "date": "Feb 14, 2026",
-      "id": "1771089432079"
+      "createdAt": "2026-02-16T12:57:23.918Z",
+      "date": "Feb 16, 2026"
     },
     {
-      "title": "bcd",
+      "id": "1771246828465",
+      "title": "mountains",
       "author": "payalvanpariya341",
-      "description": "ldmldmjl",
-      "image": "https://avatars.mds.yandex.net/i?id=3230ad4172eabe68785cb376e587b7e02ebd121c-4805918-images-thumbs&n=13",
-      "userId": 1771090067555,
+      "description": "A mountain is a tall and majestic landform that rises high above the surrounding land. Covered with rocks, trees, or snow, mountains offer breathtaking views and a peaceful atmosphere. They symbolize strength, beauty, and adventure in nature.\n",
+      "image": "https://avatars.mds.yandex.net/i?id=9571e24f40a92b50883167496b1fc0da56ac5bfb-5219011-images-thumbs&n=13",
+      "userId": 1771246828465,
       "userEmail": "payalvanpariya341@gmail.com",
-      "createdAt": "2026-02-14T17:27:47.555Z",
-      "date": "Feb 14, 2026",
-      "id": "1771090057660"
-    },
-    {
-      "id": "1771219032742",
-      "title": "oktkrtkpotg",
-      "author": "payalvanpariya341",
-      "description": "ijpkgtfkdopktert",
-      "image": "https://avatars.mds.yandex.net/i?id=bbb0d74f28362fd621726f1a0df63a55d6a7f4fea8d32cd5-7662303-images-thumbs&n=13",
-      "userId": 1771219032738,
-      "userEmail": "payalvanpariya341@gmail.com",
-      "createdAt": "2026-02-16T05:17:12.738Z",
+      "createdAt": "2026-02-16T13:00:28.465Z",
       "date": "Feb 16, 2026"
     }
   ]

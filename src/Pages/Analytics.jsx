@@ -13,7 +13,7 @@ import {
   Cell,
 } from "recharts";
 
-import Navbar from "../Component/Navbar";
+import Navbar from "../component/Navbar";
 import "./Analytics.css";
 
 const Analytics = () => {
