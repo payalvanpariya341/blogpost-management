@@ -1,4 +1,4 @@
-import { FaBlog, FaHome, FaPlusSquare, FaSignOutAlt } from "react-icons/fa";
+import { FaBlog, FaChartBar, FaHome, FaPlusSquare, FaSignOutAlt } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
@@ -9,8 +9,8 @@ const Navbar = () => {
   const userName = loginData?.email?.split("@")[0] || "User";
 
   const handleLogout = () => {
-    localStorage.removeItem("loginData");  // remove login
-    navigate("/login");                   // redirect to login
+    localStorage.removeItem("loginData");  
+    navigate("/login");                   
   };
 
   return (
@@ -31,6 +31,12 @@ const Navbar = () => {
 
           <NavLink to="/create-post" className="nav-item">
             <FaPlusSquare className="nav-icon" /> Create Post
+          </NavLink>
+
+          
+          <NavLink to="/Analytics" className="nav-item">
+            <FaChartBar className="nav-icon" />
+            Analytics
           </NavLink>
         </div>
 
