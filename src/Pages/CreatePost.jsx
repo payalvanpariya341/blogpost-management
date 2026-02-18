@@ -7,7 +7,7 @@ import {
   FaTimes,
   FaUser,
 } from "react-icons/fa";
-import Navbar from "../component/Navbar";
+import Navbar from "../Component/Navbar";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 import "./CreatePost.css";
