@@ -13,7 +13,7 @@ import Register from "./Pages/Register";
 import CreatePost from "./Pages/CreatePost";
 import PostDetails from "./Pages/PostDetails";
 import Analytics from "./Pages/analytics";
-import ThemeContext from "./context/ThemeContext";
+import Favorites from "./Pages/Favorites";
 
 const DefaultRoute = () => {
   const loginData = JSON.parse(localStorage.getItem("loginData"));
@@ -84,7 +84,11 @@ function App() {
           <Analytics/>
         </AuthGuard>
       ),
-    }
+    },
+    {
+  path: "/favorites",
+  element: <Favorites />
+}
   ]);
 
   return (

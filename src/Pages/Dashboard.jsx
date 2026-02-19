@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaStar } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,10 +9,12 @@ import "./PostDetails.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
 
-  // Fetch all posts
+  // ================= FETCH POSTS =================
   const fetchPosts = async () => {
     try {
       setLoading(true);
@@ -27,11 +29,17 @@ const Dashboard = () => {
     }
   };
 
+  // ================= LOAD DATA =================
   useEffect(() => {
     fetchPosts();
+
+    // Load favorites from localStorage
+    const storedFavorites =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites);
   }, []);
 
-  // Delete post
+  // ================= DELETE POST =================
   const handleDeletePost = async (id) => {
     try {
       const response = await fetch(
@@ -51,22 +59,45 @@ const Dashboard = () => {
     }
   };
 
+  // ================= TOGGLE FAVORITE =================
+  const toggleFavorite = (id) => {
+    let updatedFavorites;
+
+    if (favorites.includes(id)) {
+      updatedFavorites = favorites.filter((favId) => favId !== id);
+    } else {
+      updatedFavorites = [...favorites, id];
+    }
+
+    setFavorites(updatedFavorites);
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(updatedFavorites)
+    );
+  };
+
   const handleCreatePost = () => {
     navigate("/create-post");
   };
 
-  // Get logged in user
-  const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
+  // ================= USER =================
+  const loginData = JSON.parse(
+    localStorage.getItem("loginData") || "{}"
+  );
   const currentUser = loginData?.username || "User";
 
-  // Stats
+  // ================= STATS =================
   const totalPosts = posts.length;
+
   const userPosts = posts.filter(
     (post) =>
-      post.author?.toLowerCase() === currentUser.toLowerCase()
+      post.author?.toLowerCase() ===
+      currentUser.toLowerCase()
   ).length;
+
   const communityPosts = totalPosts - userPosts;
 
+  // ================= UI =================
   return (
     <div className="dashboard-page">
       <Navbar />
@@ -74,35 +105,46 @@ const Dashboard = () => {
       <main className="dashboard-main">
         <div className="dashboard-welcome">
           <div className="welcome-text">
-            <h1>Welcome to Your Dashboard, {currentUser}!</h1>
+            <h1>
+              Welcome to Your Dashboard, {currentUser}!
+            </h1>
             <p>
               Manage your posts and connect with your audience.
             </p>
           </div>
         </div>
 
-        {/* Stats */}
+        {/* ================= STATS ================= */}
         <div className="dashboard-stats-overview">
           <div className="dash-card">
             <h3>Total Posts</h3>
-            <span className="dash-number">{totalPosts}</span>
+            <span className="dash-number">
+              {totalPosts}
+            </span>
           </div>
 
           <div className="dash-card">
             <h3>Your Stories</h3>
-            <span className="dash-number">{userPosts}</span>
+            <span className="dash-number">
+              {userPosts}
+            </span>
           </div>
 
           <div className="dash-card">
             <h3>Community Posts</h3>
-            <span className="dash-number">{communityPosts}</span>
+            <span className="dash-number">
+              {communityPosts}
+            </span>
           </div>
         </div>
 
-        {/* Posts Section */}
+        {/* ================= POSTS ================= */}
         <section className="posts-section">
           <div className="section-header">
-            <h2 className="section-title">Recent Feed</h2>
+            <h2 className="section-title">
+              Recent Feed
+            </h2>
+
             <button
               className="create-shortcut-btn"
               onClick={handleCreatePost}
@@ -118,7 +160,10 @@ const Dashboard = () => {
               </div>
             ) : posts.length > 0 ? (
               posts.map((post) => (
-                <div className="post-card" key={post.id}>
+                <div
+                  className="post-card"
+                  key={post.id}
+                >
                   <div className="post-image-container">
                     <img
                       src={
@@ -129,14 +174,31 @@ const Dashboard = () => {
                       className="post-card-image"
                     />
 
+                    {/* ⭐ FAVORITE BUTTON */}
+                    <button
+                      className={`favorite-btn ${
+                        favorites.includes(post.id)
+                          ? "active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        toggleFavorite(post.id)
+                      }
+                    >
+                      <FaStar size={22} />
+                    </button>
+
+                    {/* EDIT + DELETE */}
                     <div className="post-actions">
                       <button
                         className="action-btn edit-btn"
                         onClick={() =>
-                          navigate(`/create-post/${post.id}`)
+                          navigate(
+                            `/create-post/${post.id}`
+                          )
                         }
                       >
-                        <MdEdit size={22} color="#ffffff" />
+                        <MdEdit size={22} />
                       </button>
 
                       <button
@@ -145,7 +207,7 @@ const Dashboard = () => {
                           handleDeletePost(post.id)
                         }
                       >
-                        <MdDelete size={20} color="#ffffff" />
+                        <MdDelete size={20} />
                       </button>
                     </div>
                   </div>
@@ -157,7 +219,8 @@ const Dashboard = () => {
                       </span>
                       <span>
                         {new Date(
-                          post.createdAt || Date.now()
+                          post.createdAt ||
+                            Date.now()
                         ).toLocaleDateString()}
                       </span>
                     </div>
@@ -170,11 +233,12 @@ const Dashboard = () => {
                       {post.description}
                     </p>
 
-                    {/* ✅ FIXED ROUTE */}
                     <button
                       className="read-more-btn"
                       onClick={() =>
-                        navigate(`/post/${post.id}`)
+                        navigate(
+                          `/post/${post.id}`
+                        )
                       }
                     >
                       Read More
@@ -184,7 +248,8 @@ const Dashboard = () => {
               ))
             ) : (
               <div className="no-posts">
-                No posts yet. Create your first post!
+                No posts yet. Create your first
+                post!
               </div>
             )}
           </div>

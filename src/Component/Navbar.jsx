@@ -1,15 +1,16 @@
-import { FaBlog, FaChartBar, FaHome, FaMoon, FaPlusSquare, FaSignOutAlt, FaSun } from "react-icons/fa";
+import { FaBlog, FaChartBar, FaHome, FaPlusSquare, FaSignOutAlt,
+  FaMoon, FaSun,FaStar} from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useTheme } from "../context/ThemeContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const {theme,toggleTheme}= useTheme();
 
-  const {theme , toggleTheme} = useTheme();
 
   const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
-  const userName = loginData?.username || "User";
+  const userName = loginData?.email?.split("@")[0] || "User";
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");  
@@ -41,14 +42,22 @@ const Navbar = () => {
             <FaChartBar className="nav-icon" />
             Analytics
           </NavLink>
+
+          <NavLink to="/Favorites" className="nav-item">
+            <FaStar className="nav-icon" />
+            Favorites
+          </NavLink>
         </div>
+
+        
 
         {/* Right Side */}
         <div className="navbar-actions">
           <span className="user-name">Hi, {userName}</span>
 
-          <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle Theme">
-            {theme === 'light' ? <FaMoon/> : <FaSun/>}
+          <button className="theme-toggle-btn" onClick={toggleTheme}
+          aria-label="Toggle theme">
+            {theme === 'light'?<FaMoon />:<FaSun/>}
           </button>
 
           <button className="logout-btn" onClick={handleLogout}>
