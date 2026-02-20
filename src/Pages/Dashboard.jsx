@@ -3,18 +3,15 @@ import { FaPlus, FaStar } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Navbar from "../Component/Navbar";
+import Navbar from "../component/Navbar";
 import "./Dashboard.css";
-import "./PostDetails.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
 
-  // ================= FETCH POSTS =================
   const fetchPosts = async () => {
     try {
       setLoading(true);
@@ -29,17 +26,50 @@ const Dashboard = () => {
     }
   };
 
-  // ================= LOAD DATA =================
   useEffect(() => {
     fetchPosts();
 
-    // Load favorites from localStorage
-    const storedFavorites =
+    const storedFavs =
       JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavorites);
+    setFavorites(storedFavs.map((item) => item.id));
   }, []);
 
-  // ================= DELETE POST =================
+  const toggleFavorite = (post) => {
+    let storedFavs =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+
+    const exists = storedFavs.find(
+      (item) => item.id === post.id
+    );
+
+    if (exists) {
+      storedFavs = storedFavs.filter(
+        (item) => item.id !== post.id
+      );
+      toast.info("Removed from favorites");
+    } else {
+      storedFavs.push(post);
+      toast.success("Added to favorites");
+    }
+
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(storedFavs)
+    );
+
+    setFavorites(storedFavs.map((item) => item.id));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("loginData");
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
+
+  const handleCreatePost = () => {
+    navigate("/create-post");
+  };
+
   const handleDeletePost = async (id) => {
     try {
       const response = await fetch(
@@ -51,7 +81,10 @@ const Dashboard = () => {
         throw new Error(`Status: ${response.status}`);
       }
 
-      setPosts((prev) => prev.filter((post) => post.id !== id));
+      setPosts((prevPosts) =>
+        prevPosts.filter((post) => post.id !== id)
+      );
+
       toast.success("Post deleted successfully");
     } catch (error) {
       console.error("Delete Error:", error);
@@ -59,62 +92,34 @@ const Dashboard = () => {
     }
   };
 
-  // ================= TOGGLE FAVORITE =================
-  const toggleFavorite = (id) => {
-    let updatedFavorites;
-
-    if (favorites.includes(id)) {
-      updatedFavorites = favorites.filter((favId) => favId !== id);
-    } else {
-      updatedFavorites = [...favorites, id];
-    }
-
-    setFavorites(updatedFavorites);
-    localStorage.setItem(
-      "favorites",
-      JSON.stringify(updatedFavorites)
-    );
-  };
-
-  const handleCreatePost = () => {
-    navigate("/create-post");
-  };
-
-  // ================= USER =================
-  const loginData = JSON.parse(
-    localStorage.getItem("loginData") || "{}"
-  );
+  const loginData =
+    JSON.parse(localStorage.getItem("loginData")) || {};
   const currentUser = loginData?.username || "User";
 
-  // ================= STATS =================
   const totalPosts = posts.length;
-
   const userPosts = posts.filter(
     (post) =>
       post.author?.toLowerCase() ===
       currentUser.toLowerCase()
   ).length;
-
   const communityPosts = totalPosts - userPosts;
 
-  // ================= UI =================
   return (
     <div className="dashboard-page">
-      <Navbar />
+      <Navbar onLogout={handleLogout} />
 
       <main className="dashboard-main">
         <div className="dashboard-welcome">
-          <div className="welcome-text">
-            <h1>
-              Welcome to Your Dashboard, {currentUser}!
-            </h1>
-            <p>
-              Manage your posts and connect with your audience.
-            </p>
-          </div>
+          <h1>
+            Welcome to Your Dashboard, {currentUser}!
+          </h1>
+          <p>
+            Manage your posts, track engagement, and
+            connect with your audience.
+          </p>
         </div>
 
-        {/* ================= STATS ================= */}
+        {/* Stats */}
         <div className="dashboard-stats-overview">
           <div className="dash-card">
             <h3>Total Posts</h3>
@@ -138,13 +143,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ================= POSTS ================= */}
+        {/* Posts */}
         <section className="posts-section">
           <div className="section-header">
             <h2 className="section-title">
               Recent Feed
             </h2>
-
             <button
               className="create-shortcut-btn"
               onClick={handleCreatePost}
@@ -174,7 +178,7 @@ const Dashboard = () => {
                       className="post-card-image"
                     />
 
-                    {/* ⭐ FAVORITE BUTTON */}
+                    {/* Favorite Button */}
                     <button
                       className={`favorite-btn ${
                         favorites.includes(post.id)
@@ -182,13 +186,13 @@ const Dashboard = () => {
                           : ""
                       }`}
                       onClick={() =>
-                        toggleFavorite(post.id)
+                        toggleFavorite(post)
                       }
                     >
-                      <FaStar size={22} />
+                      <FaStar size={20} />
                     </button>
 
-                    {/* EDIT + DELETE */}
+                    {/* Edit & Delete */}
                     <div className="post-actions">
                       <button
                         className="action-btn edit-btn"
@@ -198,7 +202,7 @@ const Dashboard = () => {
                           )
                         }
                       >
-                        <MdEdit size={22} />
+                        <MdEdit size={20} />
                       </button>
 
                       <button
@@ -213,31 +217,21 @@ const Dashboard = () => {
                   </div>
 
                   <div className="post-card-content">
-                    <div className="post-meta">
-                      <span>
-                        By {post.author || "Anonymous"}
-                      </span>
-                      <span>
-                        {new Date(
-                          post.createdAt ||
-                            Date.now()
-                        ).toLocaleDateString()}
-                      </span>
-                    </div>
-
                     <h3 className="post-card-title">
                       {post.title}
                     </h3>
 
                     <p className="post-card-description">
-                      {post.description}
+                      {post.description ||
+                        post.content ||
+                        post.excerpt}
                     </p>
 
                     <button
                       className="read-more-btn"
                       onClick={() =>
                         navigate(
-                          `/post/${post.id}`
+                          `/PostDetails/${post.id}`
                         )
                       }
                     >
@@ -248,8 +242,10 @@ const Dashboard = () => {
               ))
             ) : (
               <div className="no-posts">
-                No posts yet. Create your first
-                post!
+                <p>
+                  No posts yet. Be the first to create
+                  a post!
+                </p>
               </div>
             )}
           </div>

@@ -4,6 +4,8 @@
   font-family: 'Outfit', sans-serif;
 }
 
+/* HERO SECTION */
+
 .favorites-hero {
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
   color: white;
@@ -37,6 +39,8 @@
   opacity: 0.9;
   font-weight: 300;
 }
+
+/* CONTENT */
 
 .favorites-content {
   max-width: 1300px;
@@ -82,6 +86,8 @@
   background: #e53e3e;
   color: white;
 }
+
+/* GRID */
 
 .favorites-grid {
   display: grid;
@@ -197,25 +203,36 @@
   transform: translateY(-5px);
 }
 
-/*DARK MODE */
+/* ===================== */
+/* DARK MODE (Screenshot Style) */
+/* ===================== */
 
 [data-theme='dark'] .favorites-page-container {
-  background-color: #0d1117;
+  background: radial-gradient(circle at center, #1c2333 0%, #0d1117 60%, #000000 100%);
+}
+
+[data-theme='dark'] .favorites-hero {
+  background: transparent;
+  box-shadow: none;
 }
 
 [data-theme='dark'] .hero-shape {
-  background: #0d1117;
+  background: transparent;
 }
 
-[data-theme='dark'] .fav-card,
-[data-theme='dark'] .fav-empty-state {
+[data-theme='dark'] .fav-card {
   background: #161b22;
   border: 1px solid #30363d;
 }
 
+[data-theme='dark'] .fav-empty-state {
+  background: transparent;
+  box-shadow: none;
+  color: #f0f6fc;
+}
+
 [data-theme='dark'] .fav-title,
-[data-theme='dark'] .favorites-header h2,
-[data-theme='dark'] .fav-empty-state h3 {
+[data-theme='dark'] .favorites-header h2 {
   color: #f0f6fc;
 }
 
@@ -233,6 +250,13 @@
   background: #e53e3e;
   color: white;
 }
+
+[data-theme='dark'] .browse-btn {
+  background: linear-gradient(135deg, #ff4b2b 0%, #ff6a00 100%);
+  box-shadow: 0 10px 25px rgba(255, 75, 43, 0.4);
+}
+
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
   .hero-content h1 {

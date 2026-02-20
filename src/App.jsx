@@ -6,13 +6,13 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import AuthGuard from "./Auth/AuthGuard";
+import AuthGuard from "./auth/AuthGuard";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import CreatePost from "./Pages/CreatePost";
 import PostDetails from "./Pages/PostDetails";
-import Analytics from "./Pages/analytics";
+import Analytics from "./Pages/Analytics";
 import Favorites from "./Pages/Favorites";
 
 const DefaultRoute = () => {
@@ -70,32 +70,36 @@ function App() {
       ),
     },
     {
-  path: "/post/:id",
-  element: (
-    <AuthGuard required={true}>
-      <PostDetails />
-    </AuthGuard>
-  ),
-},
+      path: "PostDetails/:id",
+      element:(
+        <AuthGuard required={true}>
+          <PostDetails/>
+        </AuthGuard>
+      )
+    },
     {
-      path: "/analytics",
-      element: (
+      path: "Analytics",
+      element:(
         <AuthGuard required={true}>
           <Analytics/>
         </AuthGuard>
-      ),
+      )
     },
     {
-  path: "/favorites",
-  element: <Favorites />
-}
+      path: "favorites",
+      element:(
+        <AuthGuard required={true}>
+          <Favorites/>
+        </AuthGuard>
+      )
+    },
   ]);
 
   return (
     <>
       <RouterProvider router={router} />
 
-      {/* Toast container added ONCE */}
+      {/*  Toast container added ONCE */}
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -112,4 +116,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
